@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Onsite Quotation</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <!-- =====================================================
+         PDF LIBRARIES
+    ====================================================== -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+    </script>
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js">
+    </script>
+
+</head>
+
+
+<body>
+
+
+<header class="top-header">
+
+    <div>
+
+        <h1>
+            Onsite Quotation
+        </h1>
+
+        <p>
+            HVAC Site Quotation System
+        </p>
+
+    </div>
+
+</header>
+
+
+
+<main class="app-container">
+
+
+    <!-- =====================================================
+         STEP 1 - ROOMS
+    ====================================================== -->
+
+    <section
+        class="page active"
+        id="page1"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                1
+            </span>
+
+            <div>
+
+                <h2>
+                    Add Rooms
+                </h2>
+
+                <p>
+                    Enter the rooms requiring air conditioning.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div id="roomInputContainer">
+
+                <div class="input-row room-input-row">
+
+                    <input
+                        type="text"
+                        class="room-name-input"
+                        placeholder="e.g. Living Room"
+                    >
+
+                    <button
+                        type="button"
+                        class="remove-input"
+                        onclick="removeRoomInput(this)"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="secondary-button"
+                onclick="addRoomInput()"
+            >
+                + Add Room
+            </button>
+
+
+            <button
+                type="button"
+                class="primary-button full-width"
+                onclick="saveRooms()"
+            >
+                Save Rooms & Continue
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 2 - ROOM PREVIEW
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page2"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                2
+            </span>
+
+            <div>
+
+                <h2>
+                    Room Preview
+                </h2>
+
+                <p>
+                    Review, rename or delete rooms before continuing.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div id="roomPreview"></div>
+
+
+            <button
+                type="button"
+                class="primary-button full-width"
+                onclick="goToDimensions()"
+            >
+                Proceed to Dimensions →
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(1)"
+            >
+                ← Back to Add Rooms
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 3 - ROOM DIMENSIONS
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page3"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                3
+            </span>
+
+            <div>
+
+                <h2>
+                    Room Dimensions
+                </h2>
+
+                <p>
+                    Enter length and width in metres.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div id="dimensionInputs"></div>
+
+
+        <button
+            type="button"
+            class="primary-button full-width"
+            onclick="previewDimensions()"
+        >
+            Preview Dimensions →
+        </button>
+
+
+        <button
+            type="button"
+            class="secondary-button full-width"
+            onclick="showPage(2)"
+        >
+            ← Back to Room Preview
+        </button>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 4 - DIMENSION PREVIEW
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page4"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                4
+            </span>
+
+            <div>
+
+                <h2>
+                    Dimensions Preview
+                </h2>
+
+                <p>
+                    Confirm the room dimensions and calculated areas.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div id="dimensionPreview"></div>
+
+
+            <button
+                type="button"
+                class="primary-button full-width"
+                onclick="goToCopper()"
+            >
+                Proceed to Copper Length →
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(3)"
+            >
+                ← Edit Room Dimensions
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(2)"
+            >
+                ← Back to Room Preview
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 5 - COPPER LENGTH
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page5"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                5
+            </span>
+
+            <div>
+
+                <h2>
+                    Copper Pipe Length
+                </h2>
+
+                <p>
+                    Enter copper pipe length for each room in metres.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div id="copperInputs"></div>
+
+
+        <button
+            type="button"
+            class="primary-button full-width"
+            onclick="previewCopper()"
+        >
+            Preview Copper Lengths →
+        </button>
+
+
+        <button
+            type="button"
+            class="secondary-button full-width"
+            onclick="showPage(4)"
+        >
+            ← Back to Dimensions Preview
+        </button>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 6 - COPPER PREVIEW
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page6"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                6
+            </span>
+
+            <div>
+
+                <h2>
+                    Copper Preview
+                </h2>
+
+                <p>
+                    Review the copper requirements before continuing.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div id="copperPreview"></div>
+
+
+            <button
+                type="button"
+                class="primary-button full-width"
+                onclick="goToDrainage()"
+            >
+                Proceed to Drainage Length →
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(5)"
+            >
+                ← Edit Copper Lengths
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(4)"
+            >
+                ← Back to Dimensions Preview
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 7 - DRAINAGE LENGTH
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page7"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                7
+            </span>
+
+            <div>
+
+                <h2>
+                    Drainage Length
+                </h2>
+
+                <p>
+                    Enter drainage length for each room in metres.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div id="drainageInputs"></div>
+
+
+        <button
+            type="button"
+            class="primary-button full-width"
+            onclick="previewDrainage()"
+        >
+            Preview Drainage Lengths →
+        </button>
+
+
+        <button
+            type="button"
+            class="secondary-button full-width"
+            onclick="showPage(6)"
+        >
+            ← Back to Copper Preview
+        </button>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 8 - DRAINAGE PREVIEW
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page8"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                8
+            </span>
+
+            <div>
+
+                <h2>
+                    Drainage Preview
+                </h2>
+
+                <p>
+                    Review the drainage requirements and total length.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div id="drainagePreview"></div>
+
+
+            <button
+                type="button"
+                class="primary-button full-width"
+                onclick="goToCoolingLoad()"
+            >
+                Proceed to Cooling Load →
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(7)"
+            >
+                ← Edit Drainage Lengths
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(6)"
+            >
+                ← Back to Copper Preview
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 9 - COOLING LOAD
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page9"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                9
+            </span>
+
+            <div>
+
+                <h2>
+                    Cooling Load & AC Selection
+                </h2>
+
+                <p>
+                    Enter the base cooling load factor for each room.
+                    The factor is multiplied by room area.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div id="coolingLoadInputs"></div>
+
+
+        <div class="info-box">
+
+            <strong>
+                AC Capacities:
+            </strong>
+
+            9,000 |
+            12,000 |
+            18,000 |
+            24,000 |
+            36,000 |
+            48,000 BTU/hr
+
+        </div>
+
+
+        <button
+            type="button"
+            class="primary-button full-width"
+            onclick="previewCoolingLoad()"
+        >
+            Preview AC Recommendations →
+        </button>
+
+
+        <button
+    type="button"
+    class="secondary-button full-width"
+    onclick="showPage(8)"
+>
+    ← Back to Drainage Preview
+</button>
+
+
+
+    <!-- =====================================================
+         STEP 10 - AC RECOMMENDATIONS
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page10"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                10
+            </span>
+
+            <div>
+
+                <h2>
+                    AC Recommendations
+                </h2>
+
+                <p>
+                    Review the recommended AC capacities.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div id="coolingLoadPreview"></div>
+
+
+            <button
+                type="button"
+                class="primary-button full-width"
+                onclick="goToACPrices()"
+            >
+                Proceed to AC Prices →
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(9)"
+            >
+                ← Edit Cooling Load
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(8)"
+            >
+                ← Back to Drainage Preview
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 11 - AC PRICES
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page11"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                11
+            </span>
+
+            <div>
+
+                <h2>
+                    AC Equipment Prices
+                </h2>
+
+                <p>
+                    Enter the equipment unit price for each AC capacity.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div id="acPriceInputs"></div>
+
+
+        <button
+            type="button"
+            class="primary-button full-width"
+            onclick="saveACPrices()"
+        >
+            Save AC Prices →
+        </button>
+
+
+        <button
+            type="button"
+            class="secondary-button full-width"
+            onclick="showPage(10)"
+        >
+            ← Back to AC Recommendations
+        </button>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 12 - MATERIAL RATES
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page12"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                12
+            </span>
+
+            <div>
+
+                <h2>
+                    Copper & Drainage Rates
+                </h2>
+
+                <p>
+                    Enter the applicable material rates.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+
+            <label for="copperRate">
+
+                Copper Rate
+                (KES/metre)
+
+            </label>
+
+
+            <input
+                id="copperRate"
+                type="number"
+                min="0"
+                step="0.01"
+                value="3200"
+                placeholder="e.g. 3200"
+            >
+
+
+            <label for="drainageRate">
+
+                Drainage Rate
+                (KES/metre)
+
+            </label>
+
+
+            <input
+                id="drainageRate"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="e.g. 500"
+            >
+
+
+            <div class="info-box">
+
+                <strong>
+                    Drainage cost:
+                </strong>
+
+                Total drainage length × drainage rate
+
+            </div>
+
+
+            <button
+                type="button"
+                class="primary-button full-width"
+                onclick="saveMaterialRates()"
+            >
+                Save Rates & Continue →
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(11)"
+            >
+                ← Back to AC Prices
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 13 - ADDITIONAL WORKS
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page13"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                13
+            </span>
+
+            <div>
+
+                <h2>
+                    Additional Works
+                </h2>
+
+                <p>
+                    Add any additional materials or services.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div id="additionalItems"></div>
+
+
+        <button
+            type="button"
+            class="secondary-button full-width"
+            onclick="showPage(12)"
+        >
+            ← Back to Material Rates
+        </button>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 14 - QUOTATION PREVIEW
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page14"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                14
+            </span>
+
+            <div>
+
+                <h2>
+                    Quotation Preview
+                </h2>
+
+                <p>
+                    Review the complete quotation before generating the PDF.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div id="quotationPreview"></div>
+
+
+            <button
+                type="button"
+                class="primary-button full-width"
+                onclick="goToClientDetails()"
+            >
+                Proceed to Client Details →
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(13)"
+            >
+                ← Edit Additional Works
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(12)"
+            >
+                ← Edit Material Rates
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(11)"
+            >
+                ← Edit AC Prices
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(10)"
+            >
+                ← Edit AC Recommendations
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(8)"
+            >
+                ← Edit Drainage
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(6)"
+            >
+                ← Edit Copper
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-button full-width"
+                onclick="showPage(4)"
+            >
+                ← Edit Dimensions
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 15 - CLIENT DETAILS
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page15"
+    >
+
+        <div class="page-heading">
+
+            <span class="step-number">
+                15
+            </span>
+
+            <div>
+
+                <h2>
+                    Client Details
+                </h2>
+
+                <p>
+                    Enter the information to appear on the quotation.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+
+            <label for="clientName">
+
+                Client Name
+
+            </label>
+
+
+            <input
+                id="clientName"
+                type="text"
+                placeholder="Client name"
+            >
+
+
+            <label for="installationLocation">
+
+                Installation Location
+
+            </label>
+
+
+            <input
+                id="installationLocation"
+                type="text"
+                placeholder="Installation location"
+            >
+
+
+            <label for="salesPerson">
+
+                Sales Person
+
+            </label>
+
+
+            <input
+                id="salesPerson"
+                type="text"
+                placeholder="Sales person"
+            >
+
+
+            <label for="salesPhone">
+
+                Sales Phone
+
+            </label>
+
+
+            <input
+                id="salesPhone"
+                type="tel"
+                placeholder="Phone number"
+            >
+
+
+            <label for="salesEmail">
+
+                Sales Email
+
+            </label>
+
+
+            <input
+                id="salesEmail"
+                type="email"
+                placeholder="Email address"
+            >
+
+
+            <button
+    type="button"
+    class="secondary-button"
+    onclick="backToAdditionalItems()"
+>
+    ← Back
+</button>
+
+<button
+    type="button"
+    class="primary-button"
+    onclick="previewFinalQuotation()"
+>
+    Preview Quotation →
+</button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STEP 16 - SUCCESS
+    ====================================================== -->
+
+    <section
+        class="page"
+        id="page16"
+    >
+
+        <div class="card success-card">
+
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+
+            <h2>
+                Quotation Generated
+            </h2>
+
+
+            <p>
+                Your quotation PDF has been generated successfully.
+            </p>
+
+
+            <button
+                type="button"
+                class="primary-button full-width"
+                onclick="startNewQuotation()"
+            >
+                Make Another Quotation
+            </button>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================== -->
+
+<footer class="site-footer">
+
+
+    <p>
+
+        ©
+        <span id="currentYear"></span>
+        Moses Ntella Taa
+
+    </p>
+
+
+    <p>
+
+        <a
+            href="mailto:hvacmsaintern@hotpoint.co.ke"
+        >
+            hvacmsaintern@hotpoint.co.ke
+        </a>
+
+    </p>
+
+
+</footer>
+
+
+
+<!-- =========================================================
+     MAIN JAVASCRIPT
+========================================================== -->
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>
